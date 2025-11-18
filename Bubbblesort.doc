@@ -1,0 +1,78 @@
+package ie.atu.sw;
+
+import java.util.Arrays;
+import java.util.Random;
+
+public class Bubbblesort {
+	
+	//_______________________
+	// Bubble Sort Algorithm
+	// Source for information: https://www.geeksforgeeks.org/bubble_sort/
+	//This will sort the random integers into ascending order
+	
+	public static void bubbleSort(int[] arr) {
+		int n = arr.length; 
+		
+		// This will run through all array elements
+		for (int i = 0;
+				i < n - 1; i++) {
+			// The last elements of i already sorted, will be no need to check them
+            for (int j = 0; j < n - i - 1; j++) {
+            	// Swap only when the element that is found is greater than the next element 
+            if (arr[j] > arr[j+1]);
+            int temp = arr[j];
+            arr[j] = arr[j+1];
+            arr[j+1] = temp;
+            }
+		}
+	}
+    
+
+
+
+
+
+
+//_________________________________
+// This is the method to benchmark bubble sort
+// this code that will be used is going to run bubble sort 10 times randomly 
+// Its going to give the arrays, calculate and then print the run-times which come out in seconds
+
+public static void main(String[] args) { 
+	int size = 10000; //Array that will be sorted 
+	int runs = 10;  // Times it will run for
+	long totalTimeNano = 0; // The VAR that is going to be used to show total time
+	
+  System.out.println("Running Bubble Sort " + runs + " times on arrays of size " + size + "...");
+
+        for (int i = 0; i < runs; i++) {
+            // Generate random array that has the values from 0 to 9999
+            int[] arr = new Random().ints(size, 0, 10000).toArray();
+
+            // Array to be copied this makes sure that we always sort an unsorted array
+            int[] copy = Arrays.copyOf(arr, arr.length);
+
+            // Measure time
+            long start = System.nanoTime();
+
+            // Call the bubble sort
+            bubbleSort(copy);
+
+            // Stop measuring time
+            long end = System.nanoTime();
+
+            // Now Calculate duration in nanoseconds
+            long duration = end - start;
+            totalTimeNano += duration;
+
+            // After we Convert nanoseconds to milliseconds for this run
+            double timeInMillis = duration / 1_000_000.0;
+            System.out.printf("Run %d: %.3f ms%n", i + 1, timeInMillis);
+        }
+
+        // Now we Calculate average time in seconds
+        double averageTimeSeconds = (totalTimeNano / 1_000_000_000.0) / runs;
+        System.out.printf("Average time over %d runs: %.6f seconds%n", runs, averageTimeSeconds);
+    }
+}
+

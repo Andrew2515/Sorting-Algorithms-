@@ -1,0 +1,78 @@
+package ie.atu.sw;
+import java.util.Arrays;
+import java.util.Random;
+
+public class Countingsort {
+	
+	//___________________________
+	// Counting Sort
+	// Source: https://www.geeksforgeeks.org/counting-sort/
+	// Counting Sort is seen as a unique algorithm. It shows the amount of times a number can occur
+	// and thats what it uses to then place the numbers in order.
+	// This can work best for positive integers that are within a certain range.
+	//____________________________
+	public static void countingSort(int[] arr) {
+	int n = arr.length; 
+		
+		// Max value will determine size of count
+		int max = Arrays.stream(arr).max().orElse(0);
+		
+		// Create count that stores the frequency of each number
+		int[] count = new int[max + 1];
+		
+		// Have Output store the result
+		int[] output = new int[n];
+		
+		// Have each element stored 
+		for (int i = 0; i< n; i++) {
+			count[arr[i]]++;
+		}
+		
+		// Now copy sorted output back into the original
+		System.arraycopy(output, 0, arr, 0, n);
+		
+	}
+
+
+
+// ----------------------------------------------------------------
+// Main method to benchmark Counting Sort
+// This will run the countingSort method for 10 times on random 
+// and then calculates the execution time in seconds.
+// ----------------------------------------------------------------
+public static void main(String[] args) {
+    int size = 10000;        // Size of array 
+    int runs = 10;          // Number of repetitions
+    long totalTimeNano = 0; // Number for total execution time
+
+    System.out.println("Running Counting Sort " + runs + " times on arrays of size " + size + "...");
+
+    for (int i = 0; i < runs; i++) {
+        // Generate array with the elements that are between 0 and 9999
+        int[] arr = new Random().ints(size, 0, 10000).toArray();
+
+        // Clone array to keep the original unsorted data
+        int[] copy = Arrays.copyOf(arr, arr.length);
+
+        // Start timing
+        long start = System.nanoTime();
+
+        // Run counting sort
+        countingSort(copy);
+
+        // Stop timing
+        long end = System.nanoTime();
+
+        long duration = end - start;
+        totalTimeNano += duration;
+
+        // We then Convert nanoseconds to milliseconds
+        double timeInMillis = duration / 1_000_000.0;
+        System.out.printf("Run %d: %.3f ms%n", i + 1, timeInMillis);
+    }
+
+    // Calculate and display average time recorded in seconds
+    double averageTimeSeconds = (totalTimeNano / 1_000_000_000.0) / runs;
+    System.out.printf("Average time over %d runs: %.6f seconds%n", runs, averageTimeSeconds);
+}
+}

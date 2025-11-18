@@ -1,0 +1,77 @@
+package ie.atu.sw;
+
+import java.util.Arrays;
+import java.util.Random;
+
+public class Insertionsort {
+	//__________________________
+	// Insertion Sort
+	// Source: https;//www.geeksforgeeks.org/insertion-sort
+	// This is used to build the final array, by doing one item at a time
+	// It takes elements and puts them into the correct position it is needed to be in 
+	// from the sorted array 
+	// _________________________
+	
+	public static void insertionSort(int[] arr) {
+		int n = arr.length;
+		
+		// Go from index 1 to the very end
+		for (int i= 1; i < n; ++i) {
+			int key = arr[i]; // Current value to be put in
+			int j = i - 1;
+			
+			// Move elements from the arr[0..i-1], which are greater than the key,
+			// one position that is ahead of their current position
+			while (j >= 0 && arr[j] > key) {
+				arr[j+1] = arr[j];
+				j = j-1;
+				
+			}
+			// Put the key in at correct position
+			arr[j + 1] = key;
+			
+		}
+	}
+
+
+
+// -------------------------------------------------
+// Main method to benchmark Insertion Sort
+// Runs insertionSort 10 times at random 
+// and calculates the average runtime recorded in seconds.
+// -------------------------------------------------
+public static void main(String[] args) {
+    int size = 10000;        // Size of the array 
+    int runs = 10;          // Number of runs
+    long totalTimeNano = 0; // Total time
+
+    System.out.println("Running Insertion Sort " + runs + " times on arrays of size " + size + "...");
+
+    for (int i = 0; i < runs; i++) {
+        // Generate array of integers that are between 0 and 9999
+        int[] arr = new Random().ints(size, 0, 10000).toArray();
+
+        // Have a copy so we always sort unsorted data
+        int[] copy = Arrays.copyOf(arr, arr.length);
+
+        // Start timing
+        long start = System.nanoTime();
+
+        // Perform insertion sort
+        insertionSort(copy);
+
+        // End timing
+        long end = System.nanoTime();
+
+        long duration = end - start;
+        totalTimeNano += duration;
+
+        double timeInMillis = duration / 1_000_000.0;
+        System.out.printf("Run %d: %.3f ms%n", i + 1, timeInMillis);
+    }
+
+    // Calculate and show the average time recorded in seconds
+    double averageTimeSeconds = (totalTimeNano / 1_000_000_000.0) / runs;
+    System.out.printf("Average time over %d runs: %.6f seconds%n", runs, averageTimeSeconds);
+}
+}

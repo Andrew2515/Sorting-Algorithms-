@@ -1,0 +1,127 @@
+package ie.atu.sw;
+import java.util.Arrays;
+import java.util.Random;
+
+
+public class Mergesort {
+	//___________________________
+	// Merge Sort
+	// Source: https://www.geeksforgeeks.org/merge-sort/
+	// With this type of algorithm it will divide the array into halves, then recursively sorts,
+	// which then merges the sorted halves back together
+	//_____________________________
+	
+	public static void mergeSort(int arr, int left, int right) {
+		if (left < right) {
+			// Find what the middle point would be 
+			int mid = left + (right - left) / 2;
+			
+			// Then recursively sort the two halves 
+			mergeSort(arr, left, mid);
+			mergeSort(arr, mid + 1, right);
+			
+			// After this you merge the sorted halves you have
+			merge(arr, left, mid, right);
+			
+		}
+	}
+	
+     private static void merge(int arr, int left, int mid, int right) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	// Function must then be merged that can combine two sorted sub-arrays into one
+	public static void merge(int[] arr, int left, int mid, int right) {
+		// Then the sizes of these two sub-arrays can be merged 
+		int n1 = mid - left + 1;
+		int n2 = right - mid;
+		
+		// This then is the temporary arrays
+		int[] L = new int[n1];
+		int [] R = new int [n2];
+		
+		// Copy data must then be put into the temporary arrays
+		for (int i = 0; i < n1; i++)
+			L[i] = arr[left + i];
+		for (int j = 0; j < n2; j++)
+			R[j] = arr[mid + 1 + j];
+		
+		// After this we can merge the temp arrays
+		
+		int i = 0, j = 0;
+		int k = left;
+		
+		while (i < n1 && j < n2) {
+			if (L[i] <= R[j]) {
+				arr[k] = L[i];
+				i++;
+			} else {
+				arr[k] = R[j];
+				j++;
+			}
+			k++;
+		}
+		
+		// Once this is done copy the rest of the elements of L[]
+		while (i < n1) {
+			arr[k] = L[i];
+			i++;
+			k++;
+			}
+		// Then cope the elements of R[]
+		while (j < n2) {
+			arr[k] = R[j];
+			j++;
+			k++;
+			
+		}
+	}
+
+
+// --------------------------------------------------------
+// Main method to benchmark Merge Sort
+// Runs mergeSort 10 times at random 
+// and calculates what the average run-times will be in seconds.
+// --------------------------------------------------------
+public static void main(String[] args) {
+    int size = 10000;        // Size of the array 
+    int runs = 10;          // Number of repetitions
+    long totalTimeNano = 0; // Total time 
+
+    System.out.println("Running Merge Sort " + runs + " times on arrays of size " + size + "...");
+
+    for (int i = 0; i < runs; i++) {
+        // Generate array with elements that are between 0 and 9999
+        int[] arr = new Random().ints(size, 0, 10000).toArray();
+
+        // Clone array to sort a copy of each time
+        int[] copy = Arrays.copyOf(arr, arr.length);
+
+        // Start timing
+        long start = System.nanoTime();
+
+        // Run merge sort
+        mergeSort(copy, 0, copy.length - 1);
+
+        // Stop 
+        long end = System.nanoTime();
+
+        long duration = end - start;
+        totalTimeNano += duration;
+
+        double timeInMillis = duration / 1_000_000.0;
+        System.out.printf("Run %d: %.3f ms%n", i + 1, timeInMillis);
+    }
+
+    // Calculate and show the average time recorded in seconds
+    double averageTimeSeconds = (totalTimeNano / 1_000_000_000.0) / runs;
+    System.out.printf("Average time over %d runs: %.6f seconds%n", runs, averageTimeSeconds);
+}
+
+private static void mergeSort(int[] copy, int left, int right) {
+	// TODO Auto-generated method stub
+	
+}
+}
+

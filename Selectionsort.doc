@@ -1,0 +1,87 @@
+package ie.atu.sw;
+
+import java.util.Arrays;
+import java.util.Random;
+
+public class Selectionsort {
+	//____________________________
+	// Selection sort
+	// Source: http://www.geeksforgeeks.org/selection-sort/
+	// The function of this array is to repeatedly find the minimum element 
+	// that comes from the unsorted section and bringing it back to the beginning
+	//_____________________________
+	public static void selectionSort(int[] arr) {
+		int n = arr.length;
+		
+		// Go through the array elements
+		for (int i = 0; i< n - 1; i++) {
+			// From the rest of the elements find the minimum from the unsorted array
+			int minIndex = i;
+			for (int j = i + 1; j < n; j++) {
+				// If element is smaller than the minimum right now,update minIdex
+				if (arr[j] < arr[minIndex]) {
+					minIndex = j;
+					
+				}
+			}
+			
+		}
+	}
+
+	private int minIndex;
+
+
+	private int[] arr;
+
+
+// Swap minimum element with first element comes from the unsorted part
+int temp = arr[minIndex];{
+int i = 0;
+arr[minIndex] = arr[i];
+arr[i] = temp;
+}
+
+//-----------------------------------------------
+// Main method to benchmark Selection Sort
+// Runs the selection sort 10 times at random 
+// for given sizes and calculates the average time
+// taken recorded in seconds.
+// -----------------------------------------------
+public static void main(String[] args) {
+    int size = 10000;        // Size of Array to be sorted
+    int runs = 10;          // Number of times to run 
+    long totalTimeNano = 0; // Variable used to accumulate what the total time
+
+    System.out.println("Running Selection Sort " + runs + " times on arrays of size " + size + "...");
+
+    for (int i = 0; i < runs; i++) {
+        // Generate an array with the values from 0 to 9999
+        int[] arr = new Random().ints(size, 0, 10000).toArray();
+
+        // Copy array to ensure that each run will start with a new unsorted array
+        int[] copy = Arrays.copyOf(arr, arr.length);
+
+        // Start the timer
+        long start = System.nanoTime();
+
+        // Run the selection sort
+        selectionSort(copy);
+
+        // Stop 
+        long end = System.nanoTime();
+
+        // Calculate how long it took
+        long duration = end - start;
+        totalTimeNano += duration;
+
+        // Change nanoseconds to milliseconds and print the result
+        double timeInMillis = duration / 1_000_000.0;
+        System.out.printf("Run %d: %.3f ms%n", i + 1, timeInMillis);
+    }
+
+    // Calculate and print average time in seconds
+    double averageTimeSeconds = (totalTimeNano / 1_000_000_000.0) / runs;
+    System.out.printf("Average time over %d runs: %.6f seconds%n", runs, averageTimeSeconds);
+}
+}
+   
